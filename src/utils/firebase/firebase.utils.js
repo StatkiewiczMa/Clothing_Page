@@ -40,16 +40,13 @@ export const signInWithGoogleRedirect = () =>
 
 export const database = getFirestore();
 
-export const createUserDocumentFromAuth = async (userAuth) => {
-	const userDocRef = doc(database, "users", userAuth.uid); //database, collection, unique ID --> it is looking for specific document
-	// console.log(userDocRef);
-
+export const createUserDocumentFromAuth = async (
+	userAuth,
+	additionalInfos = {}
+) => {
+	const userDocRef = doc(database, "users", userAuth.uid); //database, collection, unique ID
 	const userSnapshot = await getDoc(userDocRef); // variable that is pointing at this specific doc
-	// console.log(userSnapshot);
-	// console.log(userSnapshot.exists()); //checking if this document even exists
 
-	// if user data doesn't exists
-	// create/ set the document ith the data from userAuth in my collection
 	if (!userSnapshot.exists()) {
 		const { name, email } = userAuth;
 		const createdAt = new Date(); // when users are signing in
@@ -59,6 +56,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 				name,
 				email,
 				createdAt,
+				...additionalInfos,
 			});
 		} catch (error) {
 			console.log(
@@ -75,6 +73,6 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 };
 export const createAuthUserWithEmailAndPassword = async (email, password) => {
 	if (!email || !password) return;
-	
-	return await createAuthUserWithEmailAndPassword(auth, email, password);
+
+	return await createUserWithEmailAndPassword(auth, email, password);
 };
