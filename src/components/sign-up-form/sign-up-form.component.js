@@ -94,7 +94,7 @@ const SignUpForm = () => {
 					type='password'
 					required
 				/>
-				<Button buttonType='' text='sign in'></Button>
+				<Button buttonType='' text='sign up'></Button>
 			</form>
 		</div>
 	);
