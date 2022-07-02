@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { useState } from "react";
 import {
 	signInWithGooglePopup,
@@ -22,6 +23,10 @@ const SignInForm = () => {
 		const { user } = await signInWithGooglePopup();
 		// console.log(user);
 		const userDocRef = await createUserDocumentFromAuth(user);
+	};
+
+	const logUser = async () => {
+		
 	};
 
 	const changeHandler = (event) => {
@@ -58,7 +63,7 @@ const SignInForm = () => {
 				/>
 
 				<div className='Buttons-sign-in-form'>
-					<Button buttonType='' text='SIGN IN' onClick={logGoogleUser}></Button>
+					<Button buttonType='' text='SIGN IN' onClick={logUser}></Button>
 					<Button
 						buttonType='google-sign-in'
 						text='SIGN IN WITH GOOGLE'

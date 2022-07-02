@@ -1,26 +1,30 @@
-.sign-forms{
-    // border: 3px solid red;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    
-    .sign-in-container{
-        // border: 3px solid red;
-        margin: 0 5rem 0rem 0rem;
-        
-        .Buttons-sign-in-form{
-            display: flex;
-            flex-direction: row;
-            // flex: 1 1 column;
-            // border: 3px solid red;
-            >button{
-                // margin: 0rem 1rem 0rem 0rem;
-                // border: 3px solid red;
-            }
-        }
-    }
-    .sign-up-container{
-        // border: 3px solid red;
-        
-    }
+.sign-forms {
+	// border: 3px solid red;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+
+	.sign-in-container {
+		// border: 3px solid red;
+		margin: 0 5rem 0rem 0rem;
+
+		.Buttons-sign-in-form {
+			display: flex;
+			flex-direction: row;
+			// flex: 1 1 column;
+			// border: 3px solid red;
+			> button:first-child {
+				margin: 0rem 1rem 0rem 0rem;
+				// border: 3px solid red;
+			}
+		}
+	}
+	.sign-up-container {
+		// border: 3px solid red;
+		.form-input {
+			// border: 3px solid red;
+			// background-color: rgba($color: grey, $alpha: 0.6);
+			color: black;
+		}
+	}
 }
