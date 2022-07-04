@@ -7,7 +7,7 @@ import FormInput from "../form-input/form-input.component";
 import "./sign-up-form.style.scss";
 import Button from "../button/button.component";
 const defaultFormData = {
-	name: "",
+	displayName: "",
 	email: "",
 	password: "",
 	confirmPassword: "",
@@ -15,7 +15,7 @@ const defaultFormData = {
 
 const SignUpForm = () => {
 	const [formFields, setFormFields] = useState(defaultFormData);
-	const { name, email, password, confirmPassword } = formFields;
+	const { displayName, email, password, confirmPassword } = formFields;
 
 	console.log(formFields);
 
@@ -40,7 +40,7 @@ const SignUpForm = () => {
 				email,
 				password
 			);
-			await createUserDocumentFromAuth(user, { name });
+			await createUserDocumentFromAuth(user, { displayName});
 			resetFormFields();
 			console.log(user);
 		} catch (error) {
@@ -52,7 +52,7 @@ const SignUpForm = () => {
 	};
 
 	return (
-		<div className="sign-up-container">
+		<div className='sign-up-container'>
 			<h2>Don't have an account?</h2>
 			<p>Sign up with email and password</p>
 			<form
@@ -62,8 +62,8 @@ const SignUpForm = () => {
 				<FormInput
 					label='Name'
 					onChange={changeHandler}
-					name='name'
-					value={name}
+					name='displayName'
+					value={displayName}
 					type='text'
 					required
 				/>

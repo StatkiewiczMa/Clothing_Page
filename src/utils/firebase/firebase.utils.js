@@ -38,6 +38,12 @@ export const signInWithGooglePopup = () =>
 
 export const signInWithGoogleRedirect = () =>
 	signInWithRedirect(auth, googleProvider);
+export const signInByEmailAndPassword = async (email, password) => {
+	if (!email || !password) return;
+	
+	return await signInWithEmailAndPassword(auth, email, password);
+	
+};
 
 export const database = getFirestore();
 
@@ -49,12 +55,12 @@ export const createUserDocumentFromAuth = async (
 	const userSnapshot = await getDoc(userDocRef); // variable that is pointing at this specific doc
 
 	if (!userSnapshot.exists()) {
-		const { name, email } = userAuth;
+		const { displayName, email } = userAuth;
 		const createdAt = new Date(); // when users are signing in
-		console.log("hej");
+		// console.log("hej");
 		try {
 			await setDoc(userDocRef, {
-				name,
+				displayName,
 				email,
 				createdAt,
 				...additionalInfos,
