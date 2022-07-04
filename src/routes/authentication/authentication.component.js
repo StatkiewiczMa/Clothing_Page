@@ -3,12 +3,12 @@ import SignInForm from "../../components/sign-in-form/sign-in-form.component";
 import './authentication.styles.scss'
 const Authentication = () => {
 	return (
-		<div className="sign-in-page-container">
+		<div className="authentication-container">
 
-			<div className='sign-forms'>
+			
 				<SignInForm />
 				<SignUpForm />
-			</div>
+			
 		</div>
 	);
 };
