@@ -3,14 +3,15 @@ import { useContext } from "react";
 import Button from "../button/button.component";
 
 import "./cart-dropdown.styles.scss";
-import { CartIfActiveContext } from "../../contexts/cart-dropdown.context";
+import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
+import CartItem from "../cart-item/cart-item.component";
 
 const CartDropdown = () => {
-	const { cartIfActive } = useContext(CartIfActiveContext);
-	// console.log(cartIfActive);
+	const { cartDropdownIfActive, cartItems } = useContext(CartDropdownContext);
+	console.log("CartItems:",cartItems);
 
 	const dropdownHandler = () => {
-		const temp = cartIfActive ? "Active" : "notActive";
+		const temp = cartDropdownIfActive ? "Active" : "notActive";
 		console.log(temp);
 		return temp;
 	};
@@ -18,6 +19,9 @@ const CartDropdown = () => {
 	return (
 		<div className={`cart-dropdown-container ${dropdownHandler()}`}>
 			<div className='cart-items'>
+				{cartItems.map((item) => (
+					<CartItem key={item.id} cartItem={item} />
+				))}
 				<Button text='go to checkout'></Button>
 			</div>
 		</div>

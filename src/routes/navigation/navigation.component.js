@@ -10,17 +10,17 @@ import { signOutUser } from "../../utils/firebase/firebase.utils";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
-import { CartIfActiveContext } from "../../contexts/cart-dropdown.context";
+import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
 
 const Navigation = () => {
-	const { currentUser, setCurrentUser } = useContext(UserContext);
+	const { currentUser, setCartDropdownIfActive } = useContext(UserContext);
 	// console.log(currentUser);
 
-	const { cartIfActive } = useContext(CartIfActiveContext);
+	const { cartDropdownIfActive } = useContext(CartDropdownContext);
 
 	const signOutHandler = async () => {
 		await signOutUser();
-		setCurrentUser(null);
+		setCartDropdownIfActive(null);
 	};
 
 	return (
@@ -47,7 +47,7 @@ const Navigation = () => {
 					)}
 					<CartIcon />
 				</div>
-				{ cartIfActive && <CartDropdown />}
+				{ cartDropdownIfActive && <CartDropdown />}
 			</nav>
 			<Outlet />
 		</Fragment>
