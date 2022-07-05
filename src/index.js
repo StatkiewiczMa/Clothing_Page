@@ -8,6 +8,9 @@ import App from "./App";
 
 import { UserProvider } from "./contexts/user.context";
 import { ProductsProvider } from "./contexts/products.context";
+
+import { CartIfActiveProvider } from "./contexts/cart-dropdown.context";
+
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
@@ -15,8 +18,9 @@ root.render(
 		<BrowserRouter>
 			<UserProvider>
 				<ProductsProvider>
-				<App />
-
+					<CartIfActiveProvider>
+						<App />
+					</CartIfActiveProvider>
 				</ProductsProvider>
 			</UserProvider>
 		</BrowserRouter>

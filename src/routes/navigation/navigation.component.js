@@ -1,16 +1,22 @@
 import { Fragment, useContext } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { ReactComponent as CrownLogo } from "../../assets/crown.svg";
-import { AiOutlineShoppingCart } from "@react-icons/all-files/ai/AiOutlineShoppingCart";
+// import { AiOutlineShoppingCart } from "@react-icons/all-files/ai/AiOutlineShoppingCart";
 import "./navigation.styles.scss";
 
 import { UserContext } from "../../contexts/user.context";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
 
+import CartIcon from "../../components/cart-icon/cart-icon.component";
+import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
+import { CartIfActiveContext } from "../../contexts/cart-dropdown.context";
+
 const Navigation = () => {
 	const { currentUser, setCurrentUser } = useContext(UserContext);
 	// console.log(currentUser);
+
+	const { cartIfActive } = useContext(CartIfActiveContext);
 
 	const signOutHandler = async () => {
 		await signOutUser();
@@ -39,10 +45,9 @@ const Navigation = () => {
 							sign in
 						</Link>
 					)}
-					<Link className='nav-link' to='cart'>
-						<AiOutlineShoppingCart className='logo' />
-					</Link>
+					<CartIcon />
 				</div>
+				{ cartIfActive && <CartDropdown />}
 			</nav>
 			<Outlet />
 		</Fragment>
