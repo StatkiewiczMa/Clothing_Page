@@ -5,8 +5,16 @@ import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
 import "./cart-icon.styles.scss";
 
 const CartIcon = () => {
-	const { cartDropdownIfActive, setCartDropdownIfActive } =
+	const { cartDropdownIfActive, setCartDropdownIfActive, cartItems } =
 		useContext(CartDropdownContext);
+
+	const itemsQuantityCounter = () => {
+		let counter = cartItems.reduce(
+			(accumulator, { quantity }) => accumulator + quantity,
+			0
+		);
+		return counter;
+	};
 
 	const cartDropdownHandler = (e) => {
 		if (!cartDropdownIfActive) setCartDropdownIfActive(true);
@@ -22,7 +30,7 @@ const CartIcon = () => {
 				cartDropdownHandler(e);
 			}}>
 			<ShoppingIcon className='shopping-icon' />
-			<span className='item-count'>0</span>
+			<span className='item-count'>{itemsQuantityCounter()}</span>
 		</div>
 	);
 };
