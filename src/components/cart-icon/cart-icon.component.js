@@ -10,7 +10,7 @@ const CartIcon = () => {
 
 	const itemsQuantityCounter = () => {
 		let counter = cartItems.reduce(
-			(accumulator, { quantity }) => accumulator + quantity,
+			(accumulator, { quantity }) => (accumulator+quantity),
 			0
 		);
 		return counter;
