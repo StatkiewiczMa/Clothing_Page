@@ -5,14 +5,15 @@ import Button from "../button/button.component";
 import "./cart-dropdown.styles.scss";
 import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
 import CartItem from "../cart-item/cart-item.component";
+import { Link } from "react-router-dom";
 
 const CartDropdown = () => {
 	const { cartDropdownIfActive, cartItems } = useContext(CartDropdownContext);
-	console.log("CartItems:",cartItems);
+	// console.log("CartItems:", cartItems);
 
 	const dropdownHandler = () => {
 		const temp = cartDropdownIfActive ? "Active" : "notActive";
-		console.log(temp);
+		// console.log(temp);
 		return temp;
 	};
 
@@ -22,7 +23,10 @@ const CartDropdown = () => {
 				{cartItems.map((item) => (
 					<CartItem key={item.id} cartItem={item} />
 				))}
+				<Link to='/checkout'>
 				<Button text='go to checkout'></Button>
+
+				</Link>
 			</div>
 		</div>
 	);
