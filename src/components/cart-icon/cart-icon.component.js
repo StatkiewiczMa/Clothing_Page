@@ -7,10 +7,9 @@ import "./cart-icon.styles.scss";
 const CartIcon = () => {
 	const { cartDropdownIfActive, setCartDropdownIfActive, cartItems } =
 		useContext(CartDropdownContext);
-
 	const itemsQuantityCounter = () => {
 		let counter = cartItems.reduce(
-			(accumulator, { quantity }) => (accumulator+quantity),
+			(accumulator, { quantity }) => accumulator + quantity,
 			0
 		);
 		return counter;
