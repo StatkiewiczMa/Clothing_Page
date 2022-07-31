@@ -4,10 +4,10 @@ import {
 	createUserDocumentFromAuth,
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
-import "./sign-up-form.style.scss";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import { UserContext } from "../../contexts/user.context";
+import { SignUpContainer } from "./sign-up-form.style";
 
 const defaultFormData = {
 	displayName: "",
@@ -58,7 +58,7 @@ const SignUpForm = () => {
 	};
 
 	return (
-		<div className='sign-up-container'>
+		<SignUpContainer>
 			<h2>Don't have an account?</h2>
 			<p>Sign up with email and password</p>
 			<form
@@ -100,9 +100,9 @@ const SignUpForm = () => {
 					type='password'
 					required
 				/>
-				<Button buttonType='' text='sign up'></Button>
+				<Button buttonType={BUTTON_TYPE_CLASSES.base} text='sign up'></Button>
 			</form>
-		</div>
+		</SignUpContainer>
 	);
 };
 export default SignUpForm;

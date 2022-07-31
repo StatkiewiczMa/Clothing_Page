@@ -1,12 +1,6 @@
-import { createContext, useState } from "react";
-// Additional function, just to print to check output
-const printArray = (array) => {
-	array.forEach((element) => {
-		console.log(element);
-	});
-};
+import { createContext, useReducer } from "react";
 
-const addCartItem = (cartItems, productToAdd, totalCost) => {
+const addCartItem = (cartItems, productToAdd, howMuch) => {
 	const tempCartItems = [...cartItems];
 	const ifProductExist = tempCartItems.find(
 		(cartItem) => cartItem.id === productToAdd.id
@@ -19,16 +13,16 @@ const addCartItem = (cartItems, productToAdd, totalCost) => {
 					? { ...cartItem, quantity: cartItem.quantity + 1 }
 					: cartItem
 			),
-			howMuch: (totalCost += +productToAdd.price),
+			totalCost: (howMuch += +productToAdd.price),
 		};
 	}
 
 	return {
 		updatedCartItemsAdd: [...tempCartItems, { ...productToAdd, quantity: 1 }],
-		howMuch: (totalCost += +productToAdd.price),
+		totalCost: (howMuch += +productToAdd.price),
 	};
 };
-const removeCartItem = (productToRemove, cartItems, ifAll, totalCost) => {
+const removeCartItem = (productToRemove, cartItems, ifAll, howMuch) => {
 	const tempCartItems = [...cartItems];
 	let productId = 0;
 	// console.log(...cartItems, tempCartItems, productToRemove, ifAll);
@@ -40,20 +34,20 @@ const removeCartItem = (productToRemove, cartItems, ifAll, totalCost) => {
 					? { ...cartItem, quantity: cartItem.quantity - 1 }
 					: cartItem
 			),
-			howMuch: (totalCost -= +productToRemove.price),
+			totalCost: (howMuch -= +productToRemove.price),
 		};
 	} else if (ifAll === "all") {
 		// console.log("Diliszyn");
 		productId = tempCartItems.indexOf(productToRemove);
 		// console.log("PRZED" + printArray(tempCartItems));
-		totalCost -= productToRemove.price * productToRemove.quantity;
+		howMuch -= productToRemove.price * productToRemove.quantity;
 		tempCartItems.splice(productId, 1);
 
 		// tempCartItems.filter((cartItem)=>cartItem===productId)
 
 		return {
 			updatedCartItemsRemove: [...tempCartItems],
-			howMuch: +totalCost,
+			totalCost: +howMuch,
 		};
 	}
 };
@@ -68,32 +62,85 @@ export const CartDropdownContext = createContext({
 	totalCost: 0,
 });
 
+const cartReducer = (state, action) => {
+	const { type, payload } = action;
+	// console.log(state.cartItems, action.payload)
+
+	switch (type) {
+		case ACTION.SET_CART_ITEMS:
+			return {
+				...state,
+				...payload,
+			};
+		case ACTION.SET_TOTAL_COST:
+			return {
+				...state,
+				totalCost: payload,
+			};
+		case ACTION.TOGGLE_CART_DROPDOWN:
+			return {
+				...state,
+				cartDropdownIfActive: !state.cartDropdownIfActive,
+			};
+		default:
+			throw new Error(`Unhandled type ${type} in cartReducer`);
+	}
+};
+
+const INITIAL_STATE = {
+	cartDropdownIfActive: false,
+	cartItems: [],
+	totalCost: 0,
+};
+
+const ACTION = {
+	SET_CART_ITEMS: "setCartItems",
+	ADD_TO_CART: "addToCart",
+	SET_TOTAL_COST: "setTotalCost",
+	TOGGLE_CART_DROPDOWN: "cartDropdownIfActive",
+};
+
 export const CartDropdownProvider = ({ children }) => {
-	const [cartDropdownIfActive, setCartDropdownIfActive] = useState(false);
-	const [cartItems, setCartItems] = useState([]);
-	const [totalCost, setTotalCost] = useState(0);
+	const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
+
+	const { cartDropdownIfActive, totalCost, cartItems } = state;
+
+	const setCartDropdownIfActive = () => {
+		dispatch({ type: ACTION.TOGGLE_CART_DROPDOWN });
+	};
 
 	const addItemToCart = (productToAdd) => {
-		const { updatedCartItemsAdd, howMuch } = addCartItem(
-			cartItems,
+		const { updatedCartItemsAdd, totalCost } = addCartItem(
+			state.cartItems,
 			productToAdd,
-			totalCost
+			state.totalCost
 		);
-		// console.log(totalCost + "<--TotalCost AfterAddingNewItem-->" + howMuch);
-		setCartItems(updatedCartItemsAdd);
-		setTotalCost(howMuch);
+		const updatedItemsAndTotalCost = {
+			cartItems: updatedCartItemsAdd,
+			totalCost: totalCost,
+		};
+		dispatch({
+			type: ACTION.SET_CART_ITEMS,
+			payload: updatedItemsAndTotalCost,
+		});
 	};
 
 	const removeItemFromCart = (productToRemove, ifAll = "") => {
-		const { updatedCartItemsRemove, howMuch } = removeCartItem(
+		// dispatch({type: , payload:})
+		const { updatedCartItemsRemove, totalCost } = removeCartItem(
 			productToRemove,
-			cartItems,
+			state.cartItems,
 			ifAll,
-			totalCost
+			state.totalCost
 		);
-
-		setCartItems(updatedCartItemsRemove);
-		setTotalCost(howMuch);
+		const updatedItemsAndTotalCost = {
+			cartItems: updatedCartItemsRemove,
+			totalCost: totalCost,
+		};
+		dispatch({
+			type: ACTION.SET_CART_ITEMS,
+			payload: updatedItemsAndTotalCost,
+		});
 	};
 
 	const value = {

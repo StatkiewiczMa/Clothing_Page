@@ -1,8 +1,12 @@
 import { useContext } from "react";
-import { ReactComponent as ShoppingIcon } from "../../assets/shopping-bag.svg";
 import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
 
-import "./cart-icon.styles.scss";
+import "./cart-icon.styles.js";
+import {
+	CartIconContainer,
+	ItemCount,
+	ShoppingIcon,
+} from "./cart-icon.styles.js";
 
 const CartIcon = () => {
 	const { cartDropdownIfActive, setCartDropdownIfActive, cartItems } =
@@ -15,22 +19,18 @@ const CartIcon = () => {
 		return counter;
 	};
 
-	const cartDropdownHandler = (e) => {
-		if (!cartDropdownIfActive) setCartDropdownIfActive(true);
-		else if (cartDropdownIfActive) setCartDropdownIfActive(false);
-		console.log("cartDropdownHandler: HIT", e);
-		// alert("HOOHOOHOO");
-	};
-
+	const cartDropdownHandler = () =>
+		setCartDropdownIfActive(!cartDropdownIfActive);
+	// console.log("cartDropdownHandler: HIT", e);
+	// alert("HOOHOOHOO");
 	return (
-		<div
-			className='cart-icon-container'
+		<CartIconContainer
 			onClick={(e) => {
 				cartDropdownHandler(e);
 			}}>
-			<ShoppingIcon className='shopping-icon' />
-			<span className='item-count'>{itemsQuantityCounter()}</span>
-		</div>
+			<ShoppingIcon />
+			<ItemCount>{itemsQuantityCounter()}</ItemCount>
+		</CartIconContainer>
 	);
 };
 

@@ -6,9 +6,9 @@ import {
 	signInByEmailAndPassword,
 	signOutUser,
 } from "../../utils/firebase/firebase.utils";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import "./sign-in-form.styles.scss";
+import { ButtonsContainer, SignInContainer } from "./sign-in-form.styles";
 
 const defaultFormData = {
 	name: "",
@@ -63,11 +63,10 @@ const SignInForm = () => {
 	};
 
 	return (
-		<div className='sign-in-container'>
+		<SignInContainer>
 			<h2>Already have an account?</h2>
 			<p>Sign in with your email and password</p>
 			<form>
-
 				<FormInput
 					label='Email'
 					onChange={changeHandler}
@@ -86,16 +85,19 @@ const SignInForm = () => {
 					required
 				/>
 
-				<div className='buttons-container'>
-					<Button buttonType='' text='SIGN IN' onClick={submitHandler}></Button>
+				<ButtonsContainer>
+					<Button
+						buttonType={BUTTON_TYPE_CLASSES.base}
+						text='SIGN IN'
+						onClick={submitHandler}></Button>
 					<Button
 						type='button'
-						buttonType='google-sign-in'
+						buttonType={BUTTON_TYPE_CLASSES.google}
 						text='Google Sign In'
 						onClick={logGoogleUser}></Button>
-				</div>
+				</ButtonsContainer>
 			</form>
-		</div>
+		</SignInContainer>
 	);
 };
 export default SignInForm;

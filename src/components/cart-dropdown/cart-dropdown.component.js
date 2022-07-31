@@ -1,34 +1,39 @@
 import { useContext } from "react";
 
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
-import "./cart-dropdown.styles.scss";
+import "./cart-dropdown.styles.js";
 import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
 import CartItem from "../cart-item/cart-item.component";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import {
+	CartDropdownContainer,
+	CartItems,
+	EmptyMessage,
+} from "./cart-dropdown.styles.js";
 
 const CartDropdown = () => {
-	const { cartDropdownIfActive, cartItems } = useContext(CartDropdownContext);
+	const { cartItems } = useContext(CartDropdownContext);
+	const navigate = useNavigate();
 	// console.log("CartItems:", cartItems);
-
-	const dropdownHandler = () => {
-		const temp = cartDropdownIfActive ? "Active" : "notActive";
-		// console.log(temp);
-		return temp;
+	const goToCheckout = () => {
+		navigate("/checkout");
 	};
-
 	return (
-		<div className={`cart-dropdown-container ${dropdownHandler()}`}>
-			<div className='cart-items'>
-				{cartItems.map((item) => (
-					<CartItem key={item.id} cartItem={item} />
-				))}
-				<Link to='/checkout'>
-				<Button text='go to checkout'></Button>
+		<CartDropdownContainer className={`cart-dropdown-container`}>
+			<CartItems className='cart-items'>
+				{cartItems.length ? (
+					cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
+				) : (
+					<EmptyMessage>Your Cart is Empty</EmptyMessage>
+				)}
 
-				</Link>
-			</div>
-		</div>
+				<Button
+					buttonType={BUTTON_TYPE_CLASSES.base}
+					text='go to checkout'
+					onClick={goToCheckout}></Button>
+			</CartItems>
+		</CartDropdownContainer>
 	);
 };
 
