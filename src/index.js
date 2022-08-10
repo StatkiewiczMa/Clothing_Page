@@ -10,20 +10,24 @@ import { UserProvider } from "./contexts/user.context";
 
 import { CartDropdownProvider } from "./contexts/cart-dropdown.context";
 import { CategoriesProvider } from "./contexts/categories.context";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 root.render(
 	<React.StrictMode>
-		<BrowserRouter>
-			<UserProvider>
-				<CategoriesProvider>
-					<CartDropdownProvider>
-						<App />
-					</CartDropdownProvider>
-				</CategoriesProvider>
-			</UserProvider>
-		</BrowserRouter>
+		<Provider store={store}>
+			<BrowserRouter>
+				<UserProvider>
+					<CategoriesProvider>
+						<CartDropdownProvider>
+							<App />
+						</CartDropdownProvider>
+					</CategoriesProvider>
+				</UserProvider>
+			</BrowserRouter>
+		</Provider>
 	</React.StrictMode>
 );
 
