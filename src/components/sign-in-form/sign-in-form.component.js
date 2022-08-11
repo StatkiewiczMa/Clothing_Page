@@ -1,103 +1,103 @@
 import { useState } from "react";
 import {
-	signInWithGooglePopup,
-	// signInWithGoogleRedirect,
-	createUserDocumentFromAuth,
-	signInByEmailAndPassword,
-	signOutUser,
+  signInWithGooglePopup,
+  signInByEmailAndPassword,
+  signOutUser,
 } from "../../utils/firebase/firebase.utils";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import { ButtonsContainer, SignInContainer } from "./sign-in-form.styles";
 
 const defaultFormData = {
-	name: "",
-	email: "",
-	password: "",
-	confirmPassword: "",
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const SignInForm = () => {
-	const [formFields, setFormFields] = useState(defaultFormData);
-	const { email, password } = formFields;
+  const [formFields, setFormFields] = useState(defaultFormData);
+  const { email, password } = formFields;
 
-	signOutUser();
-	const logGoogleUser = async () => {
-		await signInWithGooglePopup();
-		// console.log(user);
-	};
+  signOutUser();
+  const logGoogleUser = async () => {
+    await signInWithGooglePopup();
+    // console.log(user);
+  };
 
-	const resetFormFields = () => {
-		setFormFields(defaultFormData);
-	};
+  const resetFormFields = () => {
+    setFormFields(defaultFormData);
+  };
 
-	const submitHandler = async (event) => {
-		event.preventDefault();
-		try {
-			const { user } = await signInByEmailAndPassword(email, password);
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    try {
+      await signInByEmailAndPassword(email, password);
 
-			console.log(user);
-			resetFormFields();
-		} catch (error) {
-			console.log(error);
-			switch (error.code) {
-				case "auth/wrong-password":
-					alert("Incorrect password for this email");
-					break;
-				case "auth/user-not-found":
-					alert("No user found");
-					break;
-				case "auth/invalid-email":
-					alert("Wrong format of email");
-					break;
-				default:
-					console.log(error);
-			}
-		}
-	};
+      // console.log(user);
+      resetFormFields();
+    } catch (error) {
+      console.log(error);
+      switch (error.code) {
+        case "auth/wrong-password":
+          alert("Incorrect password for this email");
+          break;
+        case "auth/user-not-found":
+          alert("No user found");
+          break;
+        case "auth/invalid-email":
+          alert("Wrong format of email");
+          break;
+        default:
+          console.log(error);
+      }
+    }
+  };
 
-	const changeHandler = (event) => {
-		// console.log("Event target:",event.target);
-		const { name, value } = event.target;
-		setFormFields({ ...formFields, [name]: value });
-	};
+  const changeHandler = (event) => {
+    // console.log("Event target:",event.target);
+    const { name, value } = event.target;
+    setFormFields({ ...formFields, [name]: value });
+  };
 
-	return (
-		<SignInContainer>
-			<h2>Already have an account?</h2>
-			<p>Sign in with your email and password</p>
-			<form>
-				<FormInput
-					label='Email'
-					onChange={changeHandler}
-					name='email'
-					value={email}
-					type='email'
-					required
-				/>
+  return (
+    <SignInContainer>
+      <h2>Already have an account?</h2>
+      <p>Sign in with your email and password</p>
+      <form>
+        <FormInput
+          label="Email"
+          onChange={changeHandler}
+          name="email"
+          value={email}
+          type="email"
+          required
+        />
 
-				<FormInput
-					label='Password'
-					onChange={changeHandler}
-					name='password'
-					value={password}
-					type='password'
-					required
-				/>
+        <FormInput
+          label="Password"
+          onChange={changeHandler}
+          name="password"
+          value={password}
+          type="password"
+          required
+        />
 
-				<ButtonsContainer>
-					<Button
-						buttonType={BUTTON_TYPE_CLASSES.base}
-						text='SIGN IN'
-						onClick={submitHandler}></Button>
-					<Button
-						type='button'
-						buttonType={BUTTON_TYPE_CLASSES.google}
-						text='Google Sign In'
-						onClick={logGoogleUser}></Button>
-				</ButtonsContainer>
-			</form>
-		</SignInContainer>
-	);
+        <ButtonsContainer>
+          <Button
+            buttonType={BUTTON_TYPE_CLASSES.base}
+            text="SIGN IN"
+            onClick={submitHandler}
+          ></Button>
+          <Button
+            type="button"
+            buttonType={BUTTON_TYPE_CLASSES.google}
+            text="Google Sign In"
+            onClick={logGoogleUser}
+          ></Button>
+        </ButtonsContainer>
+      </form>
+    </SignInContainer>
+  );
 };
 export default SignInForm;
