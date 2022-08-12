@@ -16,7 +16,6 @@ export const cartReducer = (state = INITIAL_STATE, action = {}) => {
         ...state,
         ...payload,
       };
-
     case CART_ACTION_TYPES.TOGGLE_CART_DROPDOWN:
       return {
         ...state,

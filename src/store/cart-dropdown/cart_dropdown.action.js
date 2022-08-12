@@ -20,10 +20,10 @@ export const addItemToCar = (cartItems, total, productToAdd) => {
     cartItems: updatedCartItemsAdd,
     totalCost: totalCost,
   };
-  dispatch({
+  return {
     type: CART_ACTION_TYPES.SET_CART_ITEMS,
     payload: updatedItemsAndTotalCost,
-  });
+  };
 };
 
 const addCartItem = (cartItems, productToAdd, howMuch) => {
@@ -31,7 +31,6 @@ const addCartItem = (cartItems, productToAdd, howMuch) => {
   const ifProductExist = tempCartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
-  // console.log(productToAdd);
   if (ifProductExist) {
     return {
       updatedCartItemsAdd: tempCartItems.map((cartItem) =>
@@ -55,7 +54,6 @@ export const removeItemFromCart = (
   productToRemove,
   ifAll = ""
 ) => {
-  // dispatch({type: , payload:})
   const { updatedCartItemsRemove, totalCost } = removeCartItem(
     productToRemove,
     cartItems,
@@ -75,9 +73,8 @@ export const removeItemFromCart = (
 const removeCartItem = (productToRemove, cartItems, ifAll, howMuch) => {
   const tempCartItems = [...cartItems];
   let productId = 0;
-  // console.log(...cartItems, tempCartItems, productToRemove, ifAll);
+
   if (ifAll !== "all" && productToRemove.quantity !== 1) {
-    // console.log("Majnas Ainz");
     return {
       updatedCartItemsRemove: tempCartItems.map((cartItem) =>
         cartItem.id === productToRemove.id
@@ -87,13 +84,9 @@ const removeCartItem = (productToRemove, cartItems, ifAll, howMuch) => {
       totalCost: (howMuch -= +productToRemove.price),
     };
   } else if (ifAll === "all") {
-    // console.log("Diliszyn");
     productId = tempCartItems.indexOf(productToRemove);
-    // console.log("PRZED" + printArray(tempCartItems));
     howMuch -= productToRemove.price * productToRemove.quantity;
     tempCartItems.splice(productId, 1);
-
-    // tempCartItems.filter((cartItem)=>cartItem===productId)
 
     return {
       updatedCartItemsRemove: [...tempCartItems],
