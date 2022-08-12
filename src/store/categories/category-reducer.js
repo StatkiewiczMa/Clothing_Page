@@ -1,7 +1,7 @@
 import { CATEGORIES_ACTION_TYPES } from "./category.types";
 
 const CATEGORIES_INITIAL_STATE = {
-  currentUser: null,
+  categoriesMap: [],
 };
 
 export const categoriesReducer = (

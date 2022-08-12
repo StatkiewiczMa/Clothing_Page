@@ -11,15 +11,14 @@ const Shop = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    debugger;
     console.log("Hey hey, shop");
     const getCategoriesMap = async () => {
-      const categoryMap = await getCategoriesAndDocuments();
+      const categoryMap = await getCategoriesAndDocuments('categories');
       console.log(categoryMap);
       dispatch(setCategoriesMap(categoryMap));
     };
     getCategoriesMap();
-  }, [dispatch]);
+  }, []);
 
   return (
     <Routes>

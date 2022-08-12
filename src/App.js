@@ -30,7 +30,7 @@ const App = () => {
     });
 
     return unSubscribe;
-  }, [dispatch]);
+  }, []);
 
   return (
     <Routes>

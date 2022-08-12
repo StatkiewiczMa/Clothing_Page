@@ -32,12 +32,13 @@ const SignInForm = () => {
   const submitHandler = async (event) => {
     event.preventDefault();
     try {
-      await signInByEmailAndPassword(email, password);
+      const user = await signInByEmailAndPassword(email, password);
 
-      // console.log(user);
+      console.log(user);
       resetFormFields();
     } catch (error) {
       console.log(error);
+
       switch (error.code) {
         case "auth/wrong-password":
           alert("Incorrect password for this email");
