@@ -1,5 +1,4 @@
 import { createSelector } from "reselect";
-
 // jeżeli zmienią się categories
 const selectCategoryReducer = (state) => state.categories;
 
