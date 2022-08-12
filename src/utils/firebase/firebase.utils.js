@@ -18,6 +18,7 @@ import {
   writeBatch,
   query,
   getDocs,
+  QuerySnapshot,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,7 +34,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 

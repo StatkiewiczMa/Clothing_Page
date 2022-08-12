@@ -3,16 +3,15 @@ import CategoryPreview from "../../components/category-preview/category-preview.
 
 import { useSelector } from "react-redux/es/hooks/useSelector";
 
-import "./categories-preview.styles.scss";
 
 const CategoriesPreview = () => {
   const categoriesMap = useSelector((state) => state.categories.categoriesMap);
   console.log(categoriesMap);
+
   return (
-    <Fragment>
+    <Fragment className='category-container'>
       {Object.keys(categoriesMap).map((title) => {
         const products = categoriesMap[title];
-        // console.log("Products:", products);
         return (
           <CategoryPreview
             key={title}
