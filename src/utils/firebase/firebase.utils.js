@@ -81,25 +81,14 @@ export const addCollectionAndDocuments = async (
 
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(database, "categories");
-  // console.log("collectionRef:", collectionRef);
-
   // gives back an object that we can make a snapshot from
   const q = query(collectionRef);
-  // console.log("q-query:", q);
-
   // getting these documents snapshots that we want
   const querySnapshot = await getDocs(q);
-  // console.log("querySnapshot:", querySnapshot);
+  // console.log(q, querySnapshot.docs);
+  return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
 
-  // reducing through these documents to get the object
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const { title, items } = docSnapshot.data();
-    // console.log(acc,docSnapshot)
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
-
-  return categoryMap;
+  // return categoryMap;
 };
 
 export const createUserDocumentFromAuth = async (
@@ -107,7 +96,7 @@ export const createUserDocumentFromAuth = async (
   additionalInfos = {}
 ) => {
   if (!userAuth) return;
-  
+
   const userDocRef = doc(database, "users", userAuth.uid); //database, collection, unique ID
   const userSnapshot = await getDoc(userDocRef);
 
