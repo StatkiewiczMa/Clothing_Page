@@ -5,92 +5,64 @@ export const setCartItems = (categoriesArray) => ({
   payload: categoriesArray,
 });
 
-export const setCartDropdownIfActive = () => ({
+export const setCartDropdownIfActive = (isOpen) => ({
   type: CART_ACTION_TYPES.TOGGLE_CART_DROPDOWN,
-  payload: "",
+  payload: isOpen,
 });
 
-export const addItemToCar = (cartItems, total, productToAdd) => {
-  const { updatedCartItemsAdd, totalCost } = addCartItem(
-    cartItems,
-    productToAdd,
-    total
-  );
-  const updatedItemsAndTotalCost = {
-    cartItems: updatedCartItemsAdd,
-    totalCost: totalCost,
-  };
+export const addItemToCart = (cartItems, productToAdd) => {
+  const updatedCartItemsAdd = addCartItem(cartItems, productToAdd);
   return {
     type: CART_ACTION_TYPES.SET_CART_ITEMS,
-    payload: updatedItemsAndTotalCost,
+    payload: updatedCartItemsAdd,
   };
 };
 
-const addCartItem = (cartItems, productToAdd, howMuch) => {
-  const tempCartItems = [...cartItems];
-  const ifProductExist = tempCartItems.find(
+const addCartItem = (cartItems, productToAdd) => {
+  const ifProductExist = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
   );
+  let updatedCartItemsAdd = [];
   if (ifProductExist) {
-    return {
-      updatedCartItemsAdd: tempCartItems.map((cartItem) =>
-        cartItem.id === productToAdd.id
-          ? { ...cartItem, quantity: cartItem.quantity + 1 }
-          : cartItem
-      ),
-      totalCost: (howMuch += +productToAdd.price),
-    };
+    updatedCartItemsAdd = cartItems.map((cartItem) =>
+      cartItem.id === productToAdd.id
+        ? { ...cartItem, quantity: cartItem.quantity + 1 }
+        : cartItem
+    );
+    return updatedCartItemsAdd;
   }
-
-  return {
-    updatedCartItemsAdd: [...tempCartItems, { ...productToAdd, quantity: 1 }],
-    totalCost: (howMuch += +productToAdd.price),
-  };
+  updatedCartItemsAdd = [...cartItems, { ...productToAdd, quantity: 1 }];
+  return updatedCartItemsAdd;
 };
 
-export const removeItemFromCart = (
-  cartItems,
-  total,
-  productToRemove,
-  ifAll = ""
-) => {
-  const { updatedCartItemsRemove, totalCost } = removeCartItem(
-    productToRemove,
-    cartItems,
-    ifAll,
-    total
-  );
-  const updatedItemsAndTotalCost = {
-    cartItems: updatedCartItemsRemove,
-    totalCost: totalCost,
-  };
+export const removeItemFromCart = (cartItems, productToRemove, ifAll = "") => {
+  const updatedItems = removeCartItem(cartItems, productToRemove, ifAll);
+
   return {
     type: CART_ACTION_TYPES.SET_CART_ITEMS,
-    payload: updatedItemsAndTotalCost,
+    payload: updatedItems,
   };
 };
 
-const removeCartItem = (productToRemove, cartItems, ifAll, howMuch) => {
+const removeCartItem = (cartItems, productToRemove, ifAll) => {
   const tempCartItems = [...cartItems];
+  let updatedCartItemsRemove = [];
   let productId = 0;
 
-  if (ifAll !== "all" && productToRemove.quantity !== 1) {
-    return {
-      updatedCartItemsRemove: tempCartItems.map((cartItem) =>
-        cartItem.id === productToRemove.id
-          ? { ...cartItem, quantity: cartItem.quantity - 1 }
-          : cartItem
-      ),
-      totalCost: (howMuch -= +productToRemove.price),
-    };
-  } else if (ifAll === "all") {
+  if (ifAll !== "all" && productToRemove.quantity !== 1)
+    updatedCartItemsRemove = tempCartItems.map((cartItem) =>
+      cartItem.id === productToRemove.id
+        ? { ...cartItem, quantity: cartItem.quantity - 1 }
+        : cartItem
+    );
+  else if (ifAll === "all") {
     productId = tempCartItems.indexOf(productToRemove);
-    howMuch -= productToRemove.price * productToRemove.quantity;
+    console.log(productId);
+    console.log(tempCartItems);
     tempCartItems.splice(productId, 1);
+    console.log(tempCartItems);
+    updatedCartItemsRemove = [...tempCartItems];
+  } else updatedCartItemsRemove = [...cartItems];
 
-    return {
-      updatedCartItemsRemove: [...tempCartItems],
-      totalCost: +howMuch,
-    };
-  }
+  return updatedCartItemsRemove;
 };

@@ -1,37 +1,30 @@
-import { useContext } from "react";
-import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import { selectCartCount, selectCartToggleCartDropdown } from "../../store/cart-dropdown/cart_dropdown.selector";
+import { setCartDropdownIfActive } from "../../store/cart-dropdown/cart_dropdown.action";
 
-import "./cart-icon.styles.js";
 import {
-	CartIconContainer,
-	ItemCount,
-	ShoppingIcon,
+  CartIconContainer,
+  ItemCount,
+  ShoppingIcon,
 } from "./cart-icon.styles.js";
 
 const CartIcon = () => {
-	const { cartDropdownIfActive, setCartDropdownIfActive, cartItems } =
-		useContext(CartDropdownContext);
-	const itemsQuantityCounter = () => {
-		let counter = cartItems.reduce(
-			(accumulator, { quantity }) => accumulator + quantity,
-			0
-		);
-		return counter;
-	};
+  const dispatch = useDispatch();
+  const counter = useSelector(selectCartCount);
+  const cartDropdownIfActive = useSelector(selectCartToggleCartDropdown);
 
-	const cartDropdownHandler = () =>
-		setCartDropdownIfActive(!cartDropdownIfActive);
-	// console.log("cartDropdownHandler: HIT", e);
-	// alert("HOOHOOHOO");
-	return (
-		<CartIconContainer
-			onClick={(e) => {
-				cartDropdownHandler(e);
-			}}>
-			<ShoppingIcon />
-			<ItemCount>{itemsQuantityCounter()}</ItemCount>
-		</CartIconContainer>
-	);
+  const cartDropdownHandler = () => dispatch(setCartDropdownIfActive(!cartDropdownIfActive));
+  
+  return (
+    <CartIconContainer
+      onClick={(e) => {
+        cartDropdownHandler(e);
+      }}
+    >
+      <ShoppingIcon />
+      <ItemCount>{counter}</ItemCount>
+    </CartIconContainer>
+  );
 };
 
 export default CartIcon;

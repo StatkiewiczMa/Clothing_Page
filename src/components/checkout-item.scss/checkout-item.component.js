@@ -1,9 +1,12 @@
-import { useContext } from "react";
-import { CartDropdownContext } from "../../contexts/cart-dropdown.context";
+import { useDispatch, useSelector } from "react-redux/es/exports";
+import {
+  addItemToCart,
+  removeItemFromCart,
+} from "../../store/cart-dropdown/cart_dropdown.action";
+import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selector";
 import {
   CheckoutItemContainer,
   RemoveButton,
-  Price,
   Quantity,
   Image,
   Name,
@@ -12,17 +15,18 @@ import {
 } from "./checkout-item.styles.js";
 
 const CheckoutItem = ({ cartItem }) => {
+  const dispatch = useDispatch();
   const { name, quantity, price, imageUrl } = cartItem;
-  const { removeItemFromCart, addItemToCart } = useContext(CartDropdownContext);
+  const cartItems = useSelector(selectCartItems);
 
   const onArrowClickHandler = (event) => {
     // console.log(event.target.id);
     if (event.target.id === "leftArrow") {
       // console.log("Left Arrow klik brada");
-      removeItemFromCart(cartItem);
+      dispatch(removeItemFromCart(cartItems, cartItem));
     } else if (event.target.id === "rightArrow") {
       // console.log("Right Arrow klik brada");
-      addItemToCart(cartItem);
+      dispatch(addItemToCart(cartItems, cartItem));
     }
   };
 
@@ -39,10 +43,10 @@ const CheckoutItem = ({ cartItem }) => {
           &#10095;
         </Arrow>
       </Quantity>
-      <Price>{`$${quantity * price}`}</Price>
+      <Value>{`$${quantity * price}`}</Value>
       <RemoveButton
         className="remove-button"
-        onClick={() => removeItemFromCart(cartItem, "all")}
+        onClick={() => dispatch(removeItemFromCart(cartItems, cartItem, "all"))}
       >
         &#10005;
       </RemoveButton>

@@ -6,7 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import "./index.scss";
 import App from "./App";
 
-import { CartDropdownProvider } from "./contexts/cart-dropdown.context";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
 
@@ -16,7 +15,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-          <App />
+        <App />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
