@@ -1,9 +1,14 @@
 import { compose, createStore, applyMiddleware } from "redux";
 import logger from "redux-logger";
-import { rootReducer } from "./root-reducer";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+
+import { rootReducer } from "./root-reducer";
+import { rootSaga } from "./root-saga";
+
 import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+// import {createSaga}
 //my own middleware
 // const loggerMiddleware = (store) => (next) => (action) => {
 //   if (!action.type) {
@@ -20,9 +25,11 @@ import thunk from "redux-thunk";
 // };
 
 // Zamiar jest taki, że łapią akcje przed reducerami i wyrzucają stan
+const sagaMiddleware = createSagaMiddleware();
 const middleWares = [
   process.env.NODE_ENV !== "production" && logger,
   thunk,
+  sagaMiddleware,
 ].filter(Boolean);
 // dopiero działają jak się użyje takiego zlepka funkcji
 //compose to sposób żeby przekazać kilka funkcji naraz od lewa do prawa
@@ -48,5 +55,5 @@ export const store = createStore(
   undefined,
   composedEnhancers
 );
-
+sagaMiddleware.run(rootSaga);
 export const persistor = persistStore(store);
