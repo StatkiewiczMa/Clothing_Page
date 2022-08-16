@@ -3,6 +3,7 @@ import logger from "redux-logger";
 import { rootReducer } from "./root-reducer";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import thunk from "redux-thunk";
 //my own middleware
 // const loggerMiddleware = (store) => (next) => (action) => {
 //   if (!action.type) {
@@ -19,9 +20,10 @@ import storage from "redux-persist/lib/storage";
 // };
 
 // Zamiar jest taki, że łapią akcje przed reducerami i wyrzucają stan
-const middleWares = [process.env.NODE_ENV !== "production" && logger].filter(
-  Boolean
-);
+const middleWares = [
+  process.env.NODE_ENV !== "production" && logger,
+  thunk,
+].filter(Boolean);
 // dopiero działają jak się użyje takiego zlepka funkcji
 //compose to sposób żeby przekazać kilka funkcji naraz od lewa do prawa
 
@@ -36,7 +38,7 @@ const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 const persistConfig = {
   key: "root",
   storage: storage, // local stora
-  blacklist: ["user"],
+  whitelist: ["cart"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
