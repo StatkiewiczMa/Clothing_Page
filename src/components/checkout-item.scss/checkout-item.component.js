@@ -12,6 +12,7 @@ import {
   Name,
   Arrow,
   Value,
+  Span,
 } from "./checkout-item.styles.js";
 
 const CheckoutItem = ({ cartItem }) => {
@@ -33,7 +34,7 @@ const CheckoutItem = ({ cartItem }) => {
   return (
     <CheckoutItemContainer>
       <Image src={imageUrl} alt={name} />
-      <Name>{name}</Name>
+      <Span>{name}</Span>
       <Quantity>
         <Arrow onClick={(event) => onArrowClickHandler(event)} id="leftArrow">
           &#10094;
@@ -43,7 +44,7 @@ const CheckoutItem = ({ cartItem }) => {
           &#10095;
         </Arrow>
       </Quantity>
-      <Value>{`$${quantity * price}`}</Value>
+      <Span>{`$${quantity * price}`}</Span>
       <RemoveButton
         className="remove-button"
         onClick={() => dispatch(removeItemFromCart(cartItems, cartItem, "all"))}

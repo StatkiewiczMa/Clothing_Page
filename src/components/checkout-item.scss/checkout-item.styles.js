@@ -8,11 +8,6 @@ export const CheckoutItemContainer = styled.div`
   padding: 15px 0;
   font-size: 20px;
   align-items: center;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 export const RemoveButton = styled.div`
   // font-size: 1rem;
@@ -23,15 +18,16 @@ export const RemoveButton = styled.div`
 export const Image = styled("img")`
   width: 23%;
   padding-right: 15px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
 `;
 
-export const Name = styled.div`
-  .quantity,
-  .price 
-    width: 23%;
-  `;
-
-export const Quantity = styled.div`
+export const Span = styled.div`
+  width: 23%;
+`;
+export const Quantity = styled(Span)`
   display: flex;
 `;
 
