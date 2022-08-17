@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithRedirect,
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -18,7 +17,6 @@ import {
   writeBatch,
   query,
   getDocs,
-  QuerySnapshot,
 } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -34,7 +32,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -47,9 +45,6 @@ export const auth = getAuth(); // It is something like authentication key that l
 
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
-
-export const signInWithGoogleRedirect = () =>
-  signInWithRedirect(auth, googleProvider);
 
 export const signInByEmailAndPassword = async (email, password) => {
   if (!email || !password) return;
@@ -135,13 +130,16 @@ export const onAuthStateChangeListener = (
   callback //permamently set listener
 ) => onAuthStateChanged(auth, callback);
 
-
 export const getCurrentUser = () => {
-console.log("getCurrentUser")
+  console.log("getCurrentUser");
   return new Promise((resolve, reject) => {
-    const unsubscribe = onAuthStateChanged(auth, (userAuth) => {
-      unsubscribe();
-      resolve(userAuth);
-    }, reject);
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
   });
 };
