@@ -9,21 +9,21 @@ import {
   NavLinks,
 } from "./navigation.styles.js";
 
-import { signOutUser } from "../../utils/firebase/firebase.utils";
-
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { selectCartToggleCartDropdown } from "../../store/cart-dropdown/cart_dropdown.selector";
+import { signOutStart } from "../../store/user/user.action";
+import { selectCurrentUser } from "../../store/user/user_selector";
 
 const Navigation = () => {
-  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector(selectCurrentUser);
   const cartDropdownIfActive = useSelector(selectCartToggleCartDropdown);
+  const dispatch = useDispatch();
 
-  const signOutHandler = async () => {
-    await signOutUser();
-  };
+  const signOutHandler = () => dispatch(signOutStart());
 
   return (
     <Fragment>
