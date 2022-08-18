@@ -9,7 +9,6 @@ import {
   RemoveButton,
   Quantity,
   Image,
-  Name,
   Arrow,
   Value,
   Span,

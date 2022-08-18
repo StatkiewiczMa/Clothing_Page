@@ -69,11 +69,7 @@ export const userReducer = (state = USER_INITIAL_STATE, action = {}) => {
         ...state,
         isLoading: true,
       };
-    case USER_ACTION_TYPES.SIGN_OUT_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      };
+
     case USER_ACTION_TYPES.SIGN_OUT_FAILED:
       return {
         ...state,
