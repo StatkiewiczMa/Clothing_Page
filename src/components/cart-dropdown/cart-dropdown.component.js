@@ -29,9 +29,8 @@ const CartDropdown = () => {
 
         <Button
           buttonType={BUTTON_TYPE_CLASSES.base}
-          text="go to checkout"
           onClick={goToCheckout}
-        ></Button>
+        >go to checkout</Button>
       </CartItems>
     </CartDropdownContainer>
   );
