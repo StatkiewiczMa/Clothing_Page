@@ -8,18 +8,14 @@ import {
 import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selector";
 import { addItemToCart } from "../../store/cart-dropdown/cart_dropdown.action";
 import { useDispatch, useSelector } from "react-redux/es/exports";
+import { CategoryItem } from "../../store/categories/category.types";
+import { FC } from "react";
 
-type ProductCardProps = {
-  name: string;
-  price: number;
-  imageUrl: string;
+export type ProductCardProps = {
+  product: CategoryItem;
 };
 
-type Product = {
-  product: ProductCardProps;
-};
-
-const ProductCard = ({ product }: Product) => {
+const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const { name, price, imageUrl } = product;
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);

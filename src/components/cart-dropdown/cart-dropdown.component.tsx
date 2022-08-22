@@ -10,27 +10,30 @@ import {
 } from "./cart-dropdown.styles.js";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selector";
+import { FC } from "react";
+import { CartsItem } from "../../store/cart-dropdown/cart_dropdown.type";
 
-const CartDropdown = () => {
+const CartDropdown: FC = () => {
   const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
-
   const goToCheckout = () => {
     navigate("/checkout");
   };
+
   return (
     <CartDropdownContainer>
       <CartItems>
         {cartItems.length ? (
-          cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)
+          cartItems.map((item: CartsItem) => (
+            <CartItem key={item.id} cartItem={item} />
+          ))
         ) : (
           <EmptyMessage>Your Cart is Empty</EmptyMessage>
         )}
 
-        <Button
-          buttonType={BUTTON_TYPE_CLASSES.base}
-          onClick={goToCheckout}
-        >go to checkout</Button>
+        <Button buttonType={BUTTON_TYPE_CLASSES.base} onClick={goToCheckout}>
+          go to checkout
+        </Button>
       </CartItems>
     </CartDropdownContainer>
   );

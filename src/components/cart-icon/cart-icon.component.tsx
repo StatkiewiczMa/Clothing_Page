@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { selectCartCount, selectCartToggleCartDropdown } from "../../store/cart-dropdown/cart_dropdown.selector";
+import {
+  selectCartCount,
+  selectCartToggleCartDropdown,
+} from "../../store/cart-dropdown/cart_dropdown.selector";
 import { setCartDropdownIfActive } from "../../store/cart-dropdown/cart_dropdown.action";
 
 import {
@@ -13,14 +16,11 @@ const CartIcon = () => {
   const counter = useSelector(selectCartCount);
   const cartDropdownIfActive = useSelector(selectCartToggleCartDropdown);
 
-  const cartDropdownHandler = () => dispatch(setCartDropdownIfActive(!cartDropdownIfActive));
-  
+  const cartDropdownHandler = () =>
+    dispatch(setCartDropdownIfActive(!cartDropdownIfActive));
+
   return (
-    <CartIconContainer
-      onClick={(e) => {
-        cartDropdownHandler(e);
-      }}
-    >
+    <CartIconContainer onClick={cartDropdownHandler}>
       <ShoppingIcon />
       <ItemCount>{counter}</ItemCount>
     </CartIconContainer>
