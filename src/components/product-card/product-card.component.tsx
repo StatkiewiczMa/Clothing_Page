@@ -9,7 +9,17 @@ import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selecto
 import { addItemToCart } from "../../store/cart-dropdown/cart_dropdown.action";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 
-const ProductCard = ({ product }) => {
+type ProductCardProps = {
+  name: string;
+  price: number;
+  imageUrl: string;
+};
+
+type Product = {
+  product: ProductCardProps;
+};
+
+const ProductCard = ({ product }: Product) => {
   const { name, price, imageUrl } = product;
   const dispatch = useDispatch();
   const cartItems = useSelector(selectCartItems);
@@ -25,7 +35,9 @@ const ProductCard = ({ product }) => {
       <Button
         buttonType={BUTTON_TYPE_CLASSES.inverted}
         onClick={addProductHandler}
-      >Add to cart</Button>
+      >
+        Add to cart
+      </Button>
     </ProductCardContainer>
   );
 };
