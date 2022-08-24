@@ -8,11 +8,11 @@ import {
 import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selector";
 import { addItemToCart } from "../../store/cart-dropdown/cart_dropdown.action";
 import { useDispatch, useSelector } from "react-redux/es/exports";
-import { CategoryItem } from "../../store/categories/category.types";
 import { FC } from "react";
+import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
 
 export type ProductCardProps = {
-  product: CategoryItem;
+  product: CartItem;
 };
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {

@@ -1,9 +1,10 @@
 import { AnyAction } from "redux";
-import { CartsItem, CART_ACTION_TYPES } from "./cart_dropdown.type";
+import { setCartDropdownIfActive, setCartItems } from "./cart_dropdown.action";
+import { CartItem } from "./cart_dropdown.type";
 
 export type CartReducerState = {
   readonly cartDropdownIfActive: boolean;
-  readonly cartItems: CartsItem[];
+  readonly cartItems: CartItem[];
 };
 
 const INITIAL_STATE: CartReducerState = {
@@ -15,19 +16,16 @@ export const cartReducer = (
   state = INITIAL_STATE,
   action: AnyAction
 ): CartReducerState => {
-  const { type, payload } = action;
-  switch (type) {
-    case CART_ACTION_TYPES.SET_CART_ITEMS:
-      return {
-        ...state,
-        cartItems: payload,
-      };
-    case CART_ACTION_TYPES.TOGGLE_CART_DROPDOWN:
-      return {
-        ...state,
-        cartDropdownIfActive: payload,
-      };
-    default:
-      return state;
-  }
+  if (setCartItems.match(action))
+    return {
+      ...state,
+      cartItems: action.payload,
+    };
+
+  if (setCartDropdownIfActive.match(action))
+    return {
+      ...state,
+      cartDropdownIfActive: action.payload,
+    };
+  return state;
 };

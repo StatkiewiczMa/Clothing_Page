@@ -5,7 +5,7 @@ import {
   removeItemFromCart,
 } from "../../store/cart-dropdown/cart_dropdown.action";
 import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selector";
-import { CategoryItem } from "../../store/categories/category.types";
+import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
 import {
   CheckoutItemContainer,
   RemoveButton,
@@ -17,7 +17,7 @@ import {
 } from "./checkout-item.styles.js";
 
 type CheckoutItemProps = {
-  cartItem: CategoryItem;
+  cartItem: CartItem;
 };
 
 const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {

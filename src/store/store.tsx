@@ -1,6 +1,6 @@
-import { compose, createStore, applyMiddleware } from "redux";
+import { compose, createStore, applyMiddleware, Middleware } from "redux";
 import logger from "redux-logger";
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, PersistConfig } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 import { rootReducer } from "./root-reducer";
@@ -8,29 +8,32 @@ import { rootSaga } from "./root-saga";
 
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-// import {createSaga}
-//my own middleware
-// const loggerMiddleware = (store) => (next) => (action) => {
-//   if (!action.type) {
-//     return next(action);
-//   }
 
-//   console.log("type: ", action.type);
-//   console.log("payload: ", action.payload);
-//   console.log("currentState: ", store.getState());
+export type ReduxState = ReturnType<typeof rootReducer>;
 
-//   next(action);
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 
-//   console.log("next state: ", store.getState());
-// };
+type ExtendedPersistConfig = PersistConfig<ReduxState> & {
+  whitelist: (keyof ReduxState)[]
+}
 
+const persistConfig:ExtendedPersistConfig = {
+  key: "root",
+  storage: storage, // local stora
+  whitelist: ["cart"],
+};
 // Zamiar jest taki, że łapią akcje przed reducerami i wyrzucają stan
 const sagaMiddleware = createSagaMiddleware();
 const middleWares = [
   process.env.NODE_ENV !== "production" && logger,
   thunk,
   sagaMiddleware,
-].filter(Boolean);
+].filter((middleware): middleware is Middleware => Boolean(middleware));
+// na górze type predica ment
 // dopiero działają jak się użyje takiego zlepka funkcji
 //compose to sposób żeby przekazać kilka funkcji naraz od lewa do prawa
 
@@ -42,11 +45,7 @@ const composeEnhancer =
 
 const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
 
-const persistConfig = {
-  key: "root",
-  storage: storage, // local stora
-  whitelist: ["cart"],
-};
+
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

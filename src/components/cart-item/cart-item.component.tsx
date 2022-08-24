@@ -1,4 +1,4 @@
-import { CartsItem } from "../../store/cart-dropdown/cart_dropdown.type.js";
+import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
 import "./cart-item.styles.js";
 import {
   CartItemContainer,
@@ -9,10 +9,10 @@ import {
 } from "./cart-item.styles.js";
 
 export type CartItemProps = {
-  cartItem: CartsItem;
+  cartItem: CartItem;
 };
 
-const CartItem = ({ cartItem }: CartItemProps) => {
+const CartItemDropdown = ({ cartItem }: CartItemProps) => {
   const { name, quantity, price, imageUrl } = cartItem;
 
   return (
@@ -28,4 +28,4 @@ const CartItem = ({ cartItem }: CartItemProps) => {
   );
 };
 
-export default CartItem;
+export default CartItemDropdown;
