@@ -25,29 +25,18 @@ const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
   const { name, quantity, price, imageUrl } = cartItem;
   const cartItems = useSelector(selectCartItems);
 
-  const onArrowClickHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    // console.log(event.target.id);
-    if (event.target.id === "leftArrow") {
-      // console.log("Left Arrow klik brada");
-      dispatch(removeItemFromCart(cartItems, cartItem));
-    } else if (event.target.id === "rightArrow") {
-      // console.log("Right Arrow klik brada");
-      dispatch(addItemToCart(cartItems, cartItem));
-    }
-  };
+  const addItemHandler = () => dispatch(addItemToCart(cartItems, cartItem));
+  const removeItemHandler = () =>
+    dispatch(removeItemFromCart(cartItems, cartItem));
 
   return (
     <CheckoutItemContainer>
       <Image src={imageUrl} alt={name} />
       <Span>{name}</Span>
       <Quantity>
-        <Arrow onClick={() => onArrowClickHandler} id="leftArrow">
-          &#10094;
-        </Arrow>
+        <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
         <Value>{quantity}</Value>
-        <Arrow onClick={() => onArrowClickHandler} id="rightArrow">
-          &#10095;
-        </Arrow>
+        <Arrow onClick={addItemHandler}>&#10095;</Arrow>
       </Quantity>
       <Span>{`$${quantity * price}`}</Span>
       <RemoveButton
