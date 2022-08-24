@@ -42,11 +42,6 @@ type SignOutFailed = ActionWithPayload<
   Error
 >;
 
-type SignUpSuccessProps = {
-  user: UserData;
-  additionalDetails: AdditionalInformation;
-};
-
 export const checkUserSession = withMatcher(
   (): CheckUserSession => createAction(USER_ACTION_TYPES.CHECK_USER_SESSION)
 );
