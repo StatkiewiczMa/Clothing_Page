@@ -22,7 +22,7 @@ const addCartItem = (
 };
 
 const removeCartItem = (
-  cartItems: CartItem[],
+  cartItems: CartItem[] = [],
   productToRemove: CartItem,
   ifAll: string
 ): CartItem[] => {
@@ -30,7 +30,7 @@ const removeCartItem = (
   let updatedCartItemsRemove = [];
   let productId = 0;
 
-  if (ifAll !== "all" && productToRemove.quantity !== 1)
+  if (ifAll !== "all" && productToRemove && productToRemove.quantity !== 1)
     updatedCartItemsRemove = tempCartItems.map((cartItem) =>
       cartItem.id === productToRemove.id
         ? { ...cartItem, quantity: cartItem.quantity - 1 }
@@ -54,9 +54,13 @@ export type SetCartDropdownIfActive = ActionWithPayload<
   CART_ACTION_TYPES.TOGGLE_CART_DROPDOWN,
   boolean
 >;
+export const setCartItems = withMatcher(
+  (categoriesArray: CartItem[]): SetCartItems =>
+    createAction(CART_ACTION_TYPES.SET_CART_ITEMS, categoriesArray)
+);
 
 export const addItemToCart = withMatcher(
-  (cartItems: CartItem[], productToAdd: CategoryItem) => {
+  (cartItems: CartItem[] = [], productToAdd: CategoryItem) => {
     const updatedCartItems = addCartItem(cartItems, productToAdd);
     return setCartItems(updatedCartItems);
   }
@@ -69,10 +73,7 @@ export const removeItemFromCart = withMatcher(
     return setCartItems(updatedCartItems);
   }
 );
-export const setCartItems = withMatcher(
-  (categoriesArray: CartItem[]): SetCartItems =>
-    createAction(CART_ACTION_TYPES.SET_CART_ITEMS, categoriesArray)
-);
+
 //                           ()               =>      {      }
 
 export const setCartDropdownIfActive = withMatcher(
