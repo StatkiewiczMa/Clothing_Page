@@ -11,18 +11,21 @@ import {
   USER_ACTION_TYPES,
 } from "./user.types";
 
-type CheckUserSession = Action<USER_ACTION_TYPES.CHECK_USER_SESSION>;
-type GoogleSignInStart = Action<USER_ACTION_TYPES.GOOGLE_SIGN_IN_START>;
-type EmailSignInStart = ActionWithPayload<
+export type CheckUserSession = Action<USER_ACTION_TYPES.CHECK_USER_SESSION>;
+export type GoogleSignInStart = Action<USER_ACTION_TYPES.GOOGLE_SIGN_IN_START>;
+export type EmailSignInStart = ActionWithPayload<
   USER_ACTION_TYPES.EMAIL_SIGN_IN_START,
   { email: string; password: string }
 >;
-type SignInSuccess = ActionWithPayload<
+export type SignInSuccess = ActionWithPayload<
   USER_ACTION_TYPES.SIGN_IN_SUCCESS,
   UserData
 >;
-type SignInFailed = ActionWithPayload<USER_ACTION_TYPES.SIGN_IN_FAILED, Error>;
-type SignUpStart = ActionWithPayload<
+export type SignInFailed = ActionWithPayload<
+  USER_ACTION_TYPES.SIGN_IN_FAILED,
+  Error
+>;
+export type SignUpStart = ActionWithPayload<
   USER_ACTION_TYPES.SIGN_UP_START,
   {
     email: string;
@@ -30,14 +33,17 @@ type SignUpStart = ActionWithPayload<
     additionalDetails: {};
   }
 >;
-type SignUpSuccess = ActionWithPayload<
+export type SignUpSuccess = ActionWithPayload<
   USER_ACTION_TYPES.SIGN_UP_SUCCESS,
   { user: User; additionalDetails: AdditionalInformation }
 >;
-type SignUpFailed = ActionWithPayload<USER_ACTION_TYPES.SIGN_UP_FAILED, Error>;
-type SignOutStart = Action<USER_ACTION_TYPES.SIGN_OUT_START>;
-type SignOutSuccess = Action<USER_ACTION_TYPES.SIGN_OUT_SUCCESS>;
-type SignOutFailed = ActionWithPayload<
+export type SignUpFailed = ActionWithPayload<
+  USER_ACTION_TYPES.SIGN_UP_FAILED,
+  Error
+>;
+export type SignOutStart = Action<USER_ACTION_TYPES.SIGN_OUT_START>;
+export type SignOutSuccess = Action<USER_ACTION_TYPES.SIGN_OUT_SUCCESS>;
+export type SignOutFailed = ActionWithPayload<
   USER_ACTION_TYPES.SIGN_OUT_FAILED,
   Error
 >;
@@ -56,7 +62,7 @@ export const emailSignInStart = withMatcher(
 );
 
 export const signInSuccess = withMatcher(
-  (user: UserData): SignInSuccess =>
+  (user: UserData & { id: string }): SignInSuccess =>
     createAction(USER_ACTION_TYPES.SIGN_IN_SUCCESS, user)
 );
 
