@@ -4,16 +4,16 @@ import {
   ButtonSpiner,
   GoogleSignInButton,
   InvertedButton,
-} from "./button.styles.js";
+} from "./button.styles";
 
-export const BUTTON_TYPE_CLASSES = {
-  base: "base",
-  google: "google-sign-in",
-  inverted: "inverted",
-};
+export enum BUTTON_TYPE_CLASSES {
+  base = "base",
+  google = "google-sign-in",
+  inverted = "inverted",
+}
 
 type ButtonProps = {
-  buttonType?: string;
+  buttonType?: BUTTON_TYPE_CLASSES;
   isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 

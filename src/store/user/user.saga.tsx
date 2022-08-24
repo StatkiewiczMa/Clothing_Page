@@ -75,7 +75,6 @@ export function* signUpWithEmail({
     );
     if (createdUser) {
       yield* put(signUpSuccess(createdUser.user, additionalDetails));
-      yield* call(getSnapshotFromUserAuth, createdUser.user, additionalDetails);
     }
   } catch (error) {
     yield* put(signUpFailed(error as Error));
@@ -113,7 +112,6 @@ export function* signOut() {
     yield* put(signOutFailed(error as Error));
   }
 }
-
 //SAGA SIGN OUT WITH EMAIL
 export function* onSignOutStart() {
   yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOut);
