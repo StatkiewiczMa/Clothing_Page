@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const BackgroundImage = styled.div`
+type ImageURL ={
+	imageUrl:string
+}
+
+export const BackgroundImage = styled.div<ImageURL>`
 	width: 100%;
 	height: 100%;
 	background-size: cover;

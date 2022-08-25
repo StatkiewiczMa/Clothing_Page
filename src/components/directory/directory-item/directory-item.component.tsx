@@ -5,7 +5,7 @@ import {
   BackgroundImage,
   Body,
   DirectoryItemContainer,
-} from "./directory-item.styles.js";
+} from "./directory-item.styles";
 
 type DirectoryProps = {
   id: Key;

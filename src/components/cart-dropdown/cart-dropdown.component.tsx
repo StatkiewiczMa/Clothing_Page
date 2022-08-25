@@ -1,12 +1,10 @@
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
-
-import "./cart-dropdown.styles.js";
 import { useNavigate } from "react-router-dom";
 import {
   CartDropdownContainer,
   CartItems,
   EmptyMessage,
-} from "./cart-dropdown.styles.js";
+} from "./cart-dropdown.styles";
 import { useSelector } from "react-redux";
 import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selector";
 import { FC } from "react";

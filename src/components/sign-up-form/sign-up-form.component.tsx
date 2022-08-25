@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import { SignUpContainer } from "./sign-up-form.style";
 import { signUpStart } from "../../store/user/user.action";
 import { useDispatch } from "react-redux";
+import { AuthError, AuthErrorCodes } from "firebase/auth";
 
-const defaultFormData = {
-  displayName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
+enum defaultFormData {
+  displayName = "",
+  email = "",
+  password = "",
+  confirmPassword = "",
+}
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormData);
@@ -19,7 +20,7 @@ const SignUpForm = () => {
   const dispatch = useDispatch();
   // console.log(formFields);
 
-  const changeHandler = (event) => {
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     // console.log(...formFields);
     setFormFields({ ...formFields, [name]: value });
@@ -27,7 +28,7 @@ const SignUpForm = () => {
   const resetFormFields = () => {
     setFormFields(defaultFormData);
   };
-  const submitHandler = async (submit) => {
+  const submitHandler = async (submit: FormEvent<HTMLFormElement>) => {
     submit.preventDefault();
     // const {submit.target}
     // createAuthUserWithEmailAndPassword(auth, email, password)
@@ -40,7 +41,8 @@ const SignUpForm = () => {
         resetFormFields();
         // console.log(user);
       } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
+        console.log("");
+        if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS) {
           alert("This email is already in use, try different email");
         }
         // console.log("user creation encountered an error", error);
@@ -91,7 +93,7 @@ const SignUpForm = () => {
           type="password"
           required
         />
-        <Button buttonType={BUTTON_TYPE_CLASSES.base} text="sign up"></Button>
+        <Button buttonType={BUTTON_TYPE_CLASSES.base}>sign up</Button>
       </form>
     </SignUpContainer>
   );

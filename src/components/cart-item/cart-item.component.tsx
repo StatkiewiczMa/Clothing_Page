@@ -1,12 +1,11 @@
 import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
-import "./cart-item.styles.js";
 import {
   CartItemContainer,
   Image,
   ItemDetails,
   Name,
   Price,
-} from "./cart-item.styles.js";
+} from "./cart-item.styles";
 
 export type CartItemProps = {
   cartItem: CartItem;

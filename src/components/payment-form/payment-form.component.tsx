@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-
 import {
   FromContainer,
   PaymentButton,
@@ -9,6 +8,12 @@ import {
 import { useSelector } from "react-redux";
 import { selectCartTotal } from "../../store/cart-dropdown/cart_dropdown.selector";
 import { selectCurrentUser } from "../../store/user/user_selector";
+import { StripeCardElement } from "@stripe/stripe-js";
+import { BUTTON_TYPE_CLASSES } from "../button/button.component";
+
+const ifValidCardElement = (
+  card: StripeCardElement | null
+): card is StripeCardElement => card !== null;
 
 const PaymentFrom = () => {
   const stripe = useStripe();
@@ -19,8 +24,8 @@ const PaymentFrom = () => {
 
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const paymentHandler = async (e) => {
-    e.preventDefault();
+  const paymentHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!stripe || !elements) return;
     setIsProcessingPayment(true);
     const response = await fetch("/.netlify/functions/create-payment-intent", {
@@ -35,9 +40,13 @@ const PaymentFrom = () => {
     } = response;
     console.log(client_secret);
 
+    const cardDetails = elements.getElement(CardElement);
+
+    if (!ifValidCardElement(cardDetails)) return;
+
     const paymentResult = await stripe.confirmCardPayment(client_secret, {
       payment_method: {
-        card: elements.getElement(CardElement),
+        card: cardDetails,
         billing_details: {
           name: currentUser ? currentUser.displayName : "guest",
         },
@@ -57,7 +66,10 @@ const PaymentFrom = () => {
       <FromContainer onSubmit={paymentHandler}>
         <h2>Credit Card Payment:</h2>
         <CardElement />
-        <PaymentButton isLoading={isProcessingPayment} buttonType={"inverted"}>
+        <PaymentButton
+          isLoading={isProcessingPayment}
+          buttonType={BUTTON_TYPE_CLASSES.inverted}
+        >
           Pay Now
         </PaymentButton>
       </FromContainer>

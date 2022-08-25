@@ -9,10 +9,10 @@ import { selectCartItems } from "../../store/cart-dropdown/cart_dropdown.selecto
 import { addItemToCart } from "../../store/cart-dropdown/cart_dropdown.action";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import { FC } from "react";
-import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
+import { CategoryItem } from "../../store/categories/category.types";
 
 export type ProductCardProps = {
-  product: CartItem;
+  product: CategoryItem;
 };
 
 const ProductCard: FC<ProductCardProps> = ({ product }) => {

@@ -5,7 +5,7 @@ import {
   CategoryPreviewContainer,
   Preview,
   Title,
-} from "./category-preview.styles.js";
+} from "./category-preview.styles";
 import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
 
 type CategoryPreviewProps = {

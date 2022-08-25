@@ -1,4 +1,4 @@
-import { ChangeEvent, FC } from "react";
+import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux/es/exports";
 import {
   addItemToCart,
@@ -14,7 +14,7 @@ import {
   Arrow,
   Value,
   Span,
-} from "./checkout-item.styles.js";
+} from "./checkout-item.styles";
 
 type CheckoutItemProps = {
   cartItem: CartItem;

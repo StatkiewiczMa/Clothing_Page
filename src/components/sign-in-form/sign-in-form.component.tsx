@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { AuthError } from "firebase/auth";
+import { ChangeEvent, FC, FormEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   emailSignInStart,
@@ -9,38 +10,38 @@ import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
 import { ButtonsContainer, SignInContainer } from "./sign-in-form.styles";
 
-const defaultFormData = {
-  name: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
+enum defaultFormData {
+  name = "",
+  email = "",
+  password = "",
+  confirmPassword = "",
+}
 
-const SignInForm = () => {
+const SignInForm: FC = () => {
   const [formFields, setFormFields] = useState(defaultFormData);
   const { email, password } = formFields;
   const dispatch = useDispatch();
-
   signOutUser();
+
   const logGoogleUser = async () => {
     dispatch(googleSignInStart());
-    // console.log(user);
   };
 
   const resetFormFields = () => {
     setFormFields(defaultFormData);
   };
 
-  const submitHandler = async (event) => {
+  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       dispatch(emailSignInStart(email, password));
 
       resetFormFields();
     } catch (error) {
+      const { code } = error as AuthError;
       console.log(error);
 
-      switch (error.code) {
+      switch (code) {
         case "auth/wrong-password":
           alert("Incorrect password for this email");
           break;
@@ -56,7 +57,7 @@ const SignInForm = () => {
     }
   };
 
-  const changeHandler = (event) => {
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
@@ -87,15 +88,17 @@ const SignInForm = () => {
         <ButtonsContainer>
           <Button
             buttonType={BUTTON_TYPE_CLASSES.base}
-            text="SIGN IN"
-            onClick={submitHandler}
-          ></Button>
+            onClick={() => submitHandler}
+          >
+            SIGN IN
+          </Button>
           <Button
             type="button"
             buttonType={BUTTON_TYPE_CLASSES.google}
-            text="Google Sign In"
             onClick={logGoogleUser}
-          ></Button>
+          >
+            Google Sign In
+          </Button>
         </ButtonsContainer>
       </form>
     </SignInContainer>
