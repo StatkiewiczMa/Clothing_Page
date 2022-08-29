@@ -6,11 +6,11 @@ import {
   Preview,
   Title,
 } from "./category-preview.styles";
-import { CartItem } from "../../store/cart-dropdown/cart_dropdown.type";
+import { CategoryItem } from "../../store/categories/category.types";
 
 type CategoryPreviewProps = {
   title: string;
-  products: CartItem[];
+  products: CategoryItem[];
 };
 
 const CategoryPreview: FC<CategoryPreviewProps> = ({ title, products }) => {

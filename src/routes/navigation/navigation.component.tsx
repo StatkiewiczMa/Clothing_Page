@@ -7,7 +7,7 @@ import {
   NavigationContainer,
   NavLink,
   NavLinks,
-} from "./navigation.styles.js";
+} from "./navigation.styles";
 
 import CartIcon from "../../components/cart-icon/cart-icon.component";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";

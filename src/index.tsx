@@ -14,7 +14,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { stripePromise } from "./utils/stripe/stripe.utils";
 
 const container = document.getElementById("root");
-const root = createRoot(container);
+const root = createRoot(container as HTMLElement);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
