@@ -14,7 +14,8 @@ import CartItemDropdown from "../cart-item/cart-item.component";
 const CartDropdown: FC = () => {
   const cartItems = useSelector(selectCartItems);
   const navigate = useNavigate();
-  const goToCheckout = () => {
+
+  const goToCheckoutHandler = () => {
     navigate("/checkout");
   };
 
@@ -29,7 +30,10 @@ const CartDropdown: FC = () => {
           <EmptyMessage>Your Cart is Empty</EmptyMessage>
         )}
 
-        <Button buttonType={BUTTON_TYPE_CLASSES.base} onClick={goToCheckout}>
+        <Button
+          buttonType={BUTTON_TYPE_CLASSES.base}
+          onClick={goToCheckoutHandler}
+        >
           go to checkout
         </Button>
       </CartItems>
